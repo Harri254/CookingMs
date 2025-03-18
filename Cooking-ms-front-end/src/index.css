@@ -140,9 +140,7 @@ h3{
     font-size: .6em;
   }
 }
-/* #password,#email, #full-name, #admin-username, #admin-password{
-  height: 40px;
-} */
+
 
 /* Forget Password styles */
 .fp-form-div{
@@ -268,11 +266,9 @@ p.content{
 
 /* Visitors Styling */
 .vs-container{
-  /* background-color: aqua; */
   font-size: 1.5rem;
   width: clamp(320px,80%,700px);
   margin: 0 auto;
-  /* border: 2px solid hsla(0, 97%, 46%, 0.768); */
   h4{
     margin-bottom: 0.5em;
   }
@@ -339,7 +335,6 @@ p.content{
     display: flex;
     flex-direction: column;
     align-items: start;
-    /* background-color: blueviolet; */
     div{
       display: flex;
 
@@ -413,9 +408,14 @@ p.content{
     height: 30px;
     width: 200px;
     background-color: blue;
+    font-size: .9em;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     margin: 0 auto;
+  }
+  .add-ingred:hover{
+    cursor: pointer;
+    background-color: rgba(232, 180, 23, 0.83);
   }
   .meal-table{
     border: 1px solid black;
@@ -444,6 +444,41 @@ p.content{
     margin-top: 10px;
     margin-bottom: 10px;
   }
+  .txt-area{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5em;
+    width: clamp(310px,80%,900px);
+  }
+  .txt-area textarea{
+    height: 150px;
+    width: clamp(300px,80%,700px);
+    margin: 10px auto;
+    font-size: 1.1em;
+  }
+ input{
+  font-size: .8em;
+ }
+ .add-meal-btn{
+  display: flex;
+  justify-content: center;
+ }
+ #add-meal-btn{
+  width: 200px;
+  margin: 10px auto;
+  border: none;
+  background-color: blue;
+  height: 30px;
+  border-radius: 10px;
+  font-size: 1.5em;
+ }
+ #add-meal-btn:hover{
+  cursor: pointer;
+  background-color: rgba(232, 180, 23, 0.83);
+}
+#checkbox-size{
+  height: 25px;
+}
 /* Cook mode Styling */
 .cook-container{
   width: clamp(320px,80%,900px);

@@ -24,7 +24,7 @@ function Login() {
 
             if (response.data.role === 'admin') {
                 navigate('/admin'); // Redirect to admin dashboard
-            } else if (response.data.role === 'User') {
+            } else if (response.data.role === 'chef') {
                 navigate('admin/cook-mode'); // Redirect to user dashboard
             }
         } catch (error) {

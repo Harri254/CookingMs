@@ -3,6 +3,7 @@ import axios from "axios";
 
 function NewMeal() {
     const [mealName, setMealName] = useState("");
+    const [mealDescription, setMealDescription] = useState("");
     const [ingredientsList, setIngredientsList] = useState([]);
     const [newIngredientString, setNewIngredientString] = useState(""); // Input string for ingredients
     const [ratios, setRatios] = useState({});
@@ -26,7 +27,7 @@ function NewMeal() {
             );
 
             setIngredientsList(updatedIngredientsList);
-            setNewIngredientString(""); // Clear the input field
+            // setNewIngredientString(""); // Clear the input field
         }
     };
 
@@ -56,6 +57,7 @@ function NewMeal() {
 
     // Handle saving an edited ingredient name
     const handleSaveEdit = (oldName, newName) => {
+
         if (!newName.trim()) {
             alert("Ingredient name cannot be empty.");
             return;
@@ -110,7 +112,7 @@ function NewMeal() {
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile && selectedFile.type.startsWith("image/")) { // Ensure it's an image
-            // setFile(selectedFile);
+            setFile(selectedFile);
         } else {
             alert("Please upload a valid image file.");
         }
@@ -119,8 +121,10 @@ function NewMeal() {
     // Handle form submission
     const handleSubmit = async(e) => {
         e.preventDefault();
-
         // Validate required fields
+        if(!mealName || !mealDescription || !newIngredientString || !recipe){
+            alert("Please fill all the fields");
+        }
         if (!mealName.trim()) {
             alert("Please enter a meal name.");
             return;
@@ -144,7 +148,15 @@ function NewMeal() {
             file: file ? file.name : "No file uploaded", // Include file name
         };
         try {
-            const response =await axios.post('http://localhost:3000/api/meals/new',{});
+            const mealTable =await axios.post('http://localhost:3000/api/meals/new',
+                {mealName, mealDescription,newIngredientString,file,recipe});
+
+            if(mealTable.data){
+                alert("Submission Succesful");
+            }
+            else{
+                alert("Not submitted")
+            }
         } catch (err) {
             console.error(err.message)
         }
@@ -158,7 +170,8 @@ function NewMeal() {
         setRatios({});
         setMainIngredients({});
         setRecipe("");
-        setFile(null); // Clear the file input
+        setFile(null);
+        setMealDescription("");// Clear the file input
     };
 
     return (
@@ -173,6 +186,15 @@ function NewMeal() {
                     placeholder="Enter meal name"
                     value={mealName}
                     onChange={(e) => setMealName(e.target.value)}
+                />
+            </div>
+            <div className="meal-name">
+                <label>Add meal description:</label>
+                <input
+                    type="text"
+                    placeholder="Enter meal description"
+                    value={mealDescription}
+                    onChange={(e) => setMealDescription(e.target.value)}
                 />
             </div>
 
@@ -235,6 +257,7 @@ function NewMeal() {
                                 <td>
                                     <input
                                         type="checkbox"
+                                        id="checkbox-size"
                                         checked={mainIngredients[ingredient] || false}
                                         onChange={() =>
                                             handleMainIngredientChange(ingredient)
@@ -311,7 +334,6 @@ function NewMeal() {
                     accept="image/*"
                     onChange={handleFileChange}
                 />
-                {file && <p>Selected file: {file.name}</p>} {/* Show selected file name */}
             </div>
 
             {/* Recipe Input */}
@@ -329,13 +351,15 @@ function NewMeal() {
             </div>
 
             {/* Submit Button */}
-            <button
-                type="submit"
-                id="save-meal"
-                onClick={handleSubmit}
-            >
-                Save Meal
-            </button>
+            <div className="add-meal-btn">
+                <button
+                    type="submit"
+                    id="add-meal-btn"
+                    onClick={handleSubmit}>
+                    Add Meal
+                </button>
+            </div>
+            
         </div>
     );
 }
