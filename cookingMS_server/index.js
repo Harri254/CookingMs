@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 
 // Import routes
 import mealRoutes from "./routes/meal.routes.js";
@@ -13,6 +14,7 @@ const app = express();
 // Middleware
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Parse JSON request bodies
+app.use(fileUpload())
 
 // Routes
 app.use("/api/meals", mealRoutes);
