@@ -36,7 +36,7 @@ function CreateAccount() {
             if(response.data){
                 setMessage("Submission successful");
 
-                navigate('/admin');
+                // navigate('/admin');
             }
         } catch (error) {
             console.error('Submission error:', error.message);
