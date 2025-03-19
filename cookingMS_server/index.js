@@ -32,6 +32,11 @@ async function testConnection() {
 
 testConnection(); // Call the function to test the connection
 
+app.use((err, req, res, next) => {
+    console.error("Server Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  });
+
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {

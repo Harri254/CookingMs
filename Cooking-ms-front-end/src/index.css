@@ -404,7 +404,7 @@ p.content{
     margin-top: 10px;
     margin-bottom: 10px;
   }
-  .add-ingred{
+  .ingredient-holder button{
     height: 30px;
     width: 200px;
     background-color: blue;
@@ -413,7 +413,7 @@ p.content{
     border-radius: 10px;
     margin: 0 auto;
   }
-  .add-ingred:hover{
+  .ingredient-holder button:hover{
     cursor: pointer;
     background-color: rgba(232, 180, 23, 0.83);
   }
@@ -448,10 +448,11 @@ p.content{
     display: flex;
     flex-direction: column;
     font-size: 1.5em;
-    width: clamp(310px,80%,900px);
+    width: clamp(310px,100%,900px);
   }
   .txt-area textarea{
     height: 150px;
+    font-size: 1.3em;
     width: clamp(300px,80%,700px);
     margin: 10px auto;
     font-size: 1.1em;
@@ -462,8 +463,14 @@ p.content{
  .add-meal-btn{
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20px;
  }
- #add-meal-btn{
+ .add-meal-btn p{
+  font-size: 1.4em;
+  text-align: center;
+ }
+ .add-meal-btn button{
   width: 200px;
   margin: 10px auto;
   border: none;
@@ -471,17 +478,27 @@ p.content{
   height: 30px;
   border-radius: 10px;
   font-size: 1.5em;
+  margin-bottom: 20px;
  }
- #add-meal-btn:hover{
+ .add-meal-btn button:hover{
   cursor: pointer;
   background-color: rgba(232, 180, 23, 0.83);
 }
-#checkbox-size{
-  height: 25px;
+.checkbox-size{
+  width: 35px;
+  height: 20px;
+}
+.input-number{
+  width: 50px;
+}
+.actions{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 /* Cook mode Styling */
 .cook-container{
-  width: clamp(320px,80%,900px);
+  width: clamp(320px,80%,1400px);
   margin: 0 auto;
   font-size: 1.2rem;
   /* *:not(hr,table,.admin-sms){
@@ -543,6 +560,7 @@ p.content{
     textarea{
       width: clamp(300px,90%,500px);
      margin: 1.2em auto;
+     font-size: 1.2em;
     }
   } 
   p{
@@ -653,7 +671,7 @@ p.content{
   justify-content: center;
 }
 #menu{
-  width: clamp(310px,500px,48%);
+  width: clamp(310px,350px,58%);
   margin-left: 0;
   border: 1.5px solid black;
   background-color: aquamarine;
@@ -665,21 +683,27 @@ p.content{
   /* margin-left: -10px; */
   .pic-holder{
     width: 100%;
+    height: 80%;
     padding: 0;
     margin: 0;
     img{
       width: 100%;
       padding: 0;
       margin: 0;
+      margin-bottom: auto;
       border-radius: 20px;
       height: 280px;
     }
   }
   .food-name{
     text-align: center;
+    height: 30%;
     margin: 0;
     h3{
       margin: 0;
+    }
+    p{
+      padding: 0 8px;
     }
   }
 }
@@ -689,3 +713,7 @@ p.content{
     /* height: 300px; */
   }
 }
+
+
+/* new css */
+

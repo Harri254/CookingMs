@@ -1,27 +1,31 @@
 import { useState } from "react";
 import axios from "axios";
 
-function NewMeal() {
-  const [mealName, setMealName] = useState("");
-  const [mealDescription, setMealDescription] = useState("");
-  const [ingredientsList, setIngredientsList] = useState([]);
+function NewMeal({ editingMeal, setEditingMeal }) {
+  const [mealName, setMealName] = useState(editingMeal?.name || "");
+  const [mealDescription, setMealDescription] = useState(editingMeal?.description || "");
+  const [ingredientsList, setIngredientsList] = useState(editingMeal?.ingredientsList || []);
   const [newIngredientString, setNewIngredientString] = useState("");
-  const [ratios, setRatios] = useState({});
-  const [mainIngredients, setMainIngredients] = useState({});
-  const [recipe, setRecipe] = useState("");
+  const [ratios, setRatios] = useState(editingMeal?.ratios || {});
+  const [mainIngredients, setMainIngredients] = useState(editingMeal?.mainIngredients || {});
+  const [recipe, setRecipe] = useState(editingMeal?.recipe || "");
   const [file, setFile] = useState(null);
   const [editingIngredient, setEditingIngredient] = useState(null);
   const [editedIngredientName, setEditedIngredientName] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
+  // Capitalize the first letter of a string
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
 
+  // Add new ingredients to the list
   const handleAddIngredients = () => {
     if (!newIngredientString.trim()) return;
 
     const newIngredients = newIngredientString
-      .split(/[, ]+/)
+      .split(/[,]/)
       .map((ingredient) => capitalizeFirstLetter(ingredient.trim()))
       .filter((ingredient) => ingredient !== "");
 
@@ -30,6 +34,7 @@ function NewMeal() {
     setNewIngredientString("");
   };
 
+  // Delete an ingredient
   const handleDeleteIngredient = (ingredientToDelete) => {
     const updatedIngredientsList = ingredientsList.filter((ing) => ing !== ingredientToDelete);
     const updatedRatios = { ...ratios };
@@ -41,6 +46,7 @@ function NewMeal() {
     setMainIngredients(updatedMainIngredients);
   };
 
+  // Save changes to an edited ingredient name
   const handleSaveEdit = () => {
     if (!editedIngredientName.trim()) {
       alert("Ingredient name cannot be empty.");
@@ -70,6 +76,7 @@ function NewMeal() {
     setEditedIngredientName("");
   };
 
+  // Toggle main ingredient status
   const handleMainIngredientChange = (ingredient) => {
     setMainIngredients((prev) => ({
       ...prev,
@@ -77,6 +84,7 @@ function NewMeal() {
     }));
   };
 
+  // Handle ratio changes
   const handleRatioChange = (ingredient, value) => {
     const parsedValue = parseFloat(value);
     if (!isNaN(parsedValue)) {
@@ -87,6 +95,7 @@ function NewMeal() {
     }
   };
 
+  // Validate ratio on blur
   const handleRatioBlur = (ingredient, value) => {
     const parsedValue = parseFloat(value);
     if (isNaN(parsedValue) || parsedValue < 0 || parsedValue > 10) {
@@ -98,57 +107,75 @@ function NewMeal() {
     }
   };
 
+  // Handle file upload
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.type.startsWith("image/") && selectedFile.size <= 5 * 1024 * 1024) {
       setFile(selectedFile);
+      setError("");
     } else {
-      alert("Please upload a valid image file (JPEG/PNG under 5MB).");
+      setError("Please upload a valid image file (JPEG/PNG under 5MB).");
+      setFile(null);
     }
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation
     if (!mealName || !mealDescription || ingredientsList.length === 0 || !recipe || !file) {
-      alert("Please fill all required fields.");
+      setError("Please fill all required fields.");
       return;
     }
 
-    try {
-      const formData = new FormData();
-      formData.append("mealName", mealName);
-      formData.append("mealDescription", mealDescription);
-      formData.append("ingredientsList", JSON.stringify(ingredientsList));
-      formData.append("ratios", JSON.stringify(ratios));
-      formData.append("mainIngredients", JSON.stringify(mainIngredients));
-      formData.append("recipe", recipe);
-      formData.append("image", file);
+    const formData = new FormData();
+    formData.append("mealName", mealName);
+    formData.append("mealDescription", mealDescription);
+    formData.append("ingredientsList", JSON.stringify(ingredientsList));
+    formData.append("ratios", JSON.stringify(ratios));
+    formData.append("mainIngredients", JSON.stringify(mainIngredients));
+    formData.append("recipe", recipe);
+    formData.append("image", file);
 
-      const response = await axios.post("http://localhost:3000/api/meals/new", formData, {
+    try {
+      const url = editingMeal
+        ? `http://localhost:3000/api/meals/${editingMeal.id}`
+        : "http://localhost:3000/api/meals/new";
+      const method = editingMeal ? "put" : "post";
+
+      const response = await axios[method](url, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (response.data) {
-        alert("Meal Added Successfully!");
-        setMealName("");
-        setMealDescription("");
-        setIngredientsList([]);
-        setNewIngredientString("");
-        setRatios({});
-        setMainIngredients({});
-        setRecipe("");
-        setFile(null);
+        setMessage(editingMeal ? "Meal updated successfully!" : "Meal added successfully!");
+        resetForm();
+        if (setEditingMeal) setEditingMeal(null); // Exit edit mode
       }
     } catch (err) {
       console.error("Submission Error:", err);
-      alert("Failed to add meal. Please check console for details.");
+      setError("Failed to save meal. Please check console for details.");
     }
+  };
+
+  // Reset form fields
+  const resetForm = () => {
+    setMealName("");
+    setMealDescription("");
+    setIngredientsList([]);
+    setNewIngredientString("");
+    setRatios({});
+    setMainIngredients({});
+    setRecipe("");
+    setFile(null);
+    setMessage("");
+    setError("");
   };
 
   return (
     <div className="add-meal">
-      <h4>Add New Meal</h4>
+      <h4>{editingMeal ? "Edit Meal" : "Add New Meal"}</h4>
       <hr />
       {/* Meal Name */}
       <div className="meal-name">
@@ -172,7 +199,7 @@ function NewMeal() {
       </div>
       {/* Ingredients Input */}
       <div className="ingredient-holder">
-        <label>Enter Ingredients (comma or space separated):</label>
+        <label>Enter Ingredients (comma):</label>
         <input
           type="text"
           placeholder="e.g., Rice, Beans Oil"
@@ -209,6 +236,7 @@ function NewMeal() {
                 <td>
                   <input
                     type="checkbox"
+                    className="checkbox-size"
                     checked={!!mainIngredients[ingredient]}
                     onChange={() => handleMainIngredientChange(ingredient)}
                   />
@@ -218,6 +246,7 @@ function NewMeal() {
                     type="number"
                     min="0"
                     max="10"
+                    className="input-number"
                     value={ratios[ingredient] || 0}
                     onChange={(e) => handleRatioChange(ingredient, e.target.value)}
                     onBlur={(e) => handleRatioBlur(ingredient, e.target.value)}
@@ -230,14 +259,17 @@ function NewMeal() {
                       <button onClick={() => setEditingIngredient(null)}>Cancel</button>
                     </>
                   ) : (
-                    <>
-                      <button onClick={() => setEditingIngredient(ingredient)}>
+                    <div className="actions">
+                      <button onClick={() => {
+                        setEditingIngredient(ingredient);
+                        setEditedIngredientName(ingredient);
+                      }}>
                         Edit
                       </button>
                       <button onClick={() => handleDeleteIngredient(ingredient)}>
                         Delete
                       </button>
-                    </>
+                    </div>
                   )}
                 </td>
               </tr>
@@ -249,6 +281,7 @@ function NewMeal() {
       <div className="image-holder">
         <label>Upload your meal picture:</label>
         <input type="file" accept="image/*" onChange={handleFileChange} />
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
       {/* Recipe Input */}
       <div className="txt-area">
@@ -266,8 +299,9 @@ function NewMeal() {
       {/* Submit Button */}
       <div className="add-meal-btn">
         <button type="submit" onClick={handleSubmit}>
-          Add Meal
+          {editingMeal ? "Update Meal" : "Add Meal"}
         </button>
+        {message && <p style={{ color: "green" }}>{message}</p>}
       </div>
     </div>
   );

@@ -1,32 +1,70 @@
 import React, { useState } from "react";
 import InputSample from './InputSample.jsx';
-import image from './assets/ugali-samaki.jpg';
-import useFetchMeals from './hooks/useFetchMeals.jsx'
+import useFetchMeals from './hooks/useFetchMeals.jsx';
+import './cookMode.css'
 
 function CookMode() {
-  const [studentNumber, setStudentNumber] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // For searching meals
+  const [selectedMeal, setSelectedMeal] = useState(null); // Track the selected meal
+  const [studentNumber, setStudentNumber] = useState(""); // For scaling quantities
+  const [recipe, setRecipe] = useState(""); // To store the fetched recipe
   const { meals, loading, error } = useFetchMeals();
-
-  const handleMessage = () => {
-    alert("Message button clicked!");
-  };
 
   if (loading) return <p>Loading meals...</p>;
   if (error) return <p>{error}</p>;
 
+  // Filter meals based on the search term
+  const filteredMeals = meals.filter((meal) =>
+    meal.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  
+  // Handle meal selection
+  const handleMealSelect = (meal) => {
+    
+    setSelectedMeal(meal);
+    setRecipe("");
+    
+    // Reset recipe when a new meal is selected
+  };
+  
+  // Fetch recipe for the selected meal
+  const fetchRecipe = async () => {
+    if (!selectedMeal) {
+      alert("Please select a meal first.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/meals/${selectedMeal.id}`
+      );
+      const data = await response.json();
+      setRecipe(data.recipe || "No recipe available.");
+    } catch (err) {
+      console.error("Error fetching recipe:", err);
+      alert("Failed to fetch recipe. Please check console for details.");
+    }
+  };
+
   return (
     <div className="cook-container">
       {/* Message Icon */}
-      <div className="ck-sms" onClick={handleMessage}>
+      <div className="ck-sms" onClick={() => alert("Message button clicked!")}>
         &#9993;
       </div>
 
       <h2>Hello and Welcome!</h2>
       <hr />
 
-      {/* Inputs */}
+      {/* Search Input */}
       <div className="inputs">
-        <InputSample label="Food name" type="text" />
+        <InputSample
+          label="Search Meal"
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <InputSample
           label="Student No."
           type="number"
@@ -35,87 +73,86 @@ function CookMode() {
         />
       </div>
 
-      <div className="div-btn">
-        <button type="submit">Generate Meal</button>
-      </div>
-
-      {/* Render Fetched Meals */}
-      <div id="menu-holders">
-        {meals.length > 0 ? (
-          meals.map((meal) => (
-            <FoodItem
+      {/* Meal List */}
+      <div className="meal-grid">
+        {filteredMeals.length > 0 ? (
+          filteredMeals.map((meal) => (
+            <div
               key={meal.id}
-              name={meal.name}
-              description={meal.description}
-              image={meal.image}
-              ingredients={meal.ingredients}
-              recipe={meal.recipe}
-            />
+              className={`meal-item ${selectedMeal?.id === meal.id ? "selected" : ""}`}
+              onClick={() => handleMealSelect(meal)}
+            >
+              <div className="meal-content">
+                <img
+                  src={meal.image}
+                  alt={meal.name}
+                  className="meal-image"
+                />
+                <div className="meal-text">
+                  <h3>{meal.name}</h3>
+                  <p>{meal.description}</p>
+                </div>
+              </div>
+            </div>
           ))
         ) : (
-          <p>No meals available.</p>
+          <p>No meals found.</p>
         )}
       </div>
 
-      <p>Meal Name for {studentNumber || "XXXX"} Student</p>
-      <hr />
-
       {/* Ingredients Table */}
-      <p className="ingred">Ingredients</p>
-      <table className="id-cook-mode">
-        <thead>
-          <tr>
-            <th>Name of Ingredient</th>
-            <th>Quantity</th>
-            <th>Available</th>
-          </tr>
-        </thead>
-        <tbody>
-          {meals.length > 0 &&
-            meals[0]?.ingredients.map((ingredient, index) => (
-              <tr key={index}>
-                <td>{ingredient.ingredientName}</td>
-                <td>{`${(ingredient.dependencyRatio * studentNumber) || 0} ${ingredient.unit}`}</td>
-                <td>
-                  <input
-                    type="checkbox"
-                    id={`${ingredient.ingredientName}-available`}
-                    aria-label={`${ingredient.ingredientName} available`}
-                  />
-                </td>
+      {selectedMeal && (
+        <>
+          <p>{selectedMeal.name} for {studentNumber || "XXXX"} Student</p>
+          <hr />
+          <p className="ingred">Ingredients</p>
+          <table className="id-cook-mode">
+            <thead>
+              <tr>
+                <th>Name of Ingredient</th>
+                <th>Quantity</th>
+                <th>Available</th>
               </tr>
-            ))}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {selectedMeal.ingredients.map((ingredient, index) => (
+                <tr key={index}>
+                  <td>{ingredient.ingredientName}</td>
+                  <td>{`${(ingredient.dependencyRatio * studentNumber) || 0} ${ingredient.unit}`}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      id={`${ingredient.ingredientName}-available`}
+                      aria-label={`${ingredient.ingredientName} available`}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
 
-      <div className="div-btn">
-        <button type="submit">Generate Recipe</button>
-      </div>
+      {/* Generate Recipe Button */}
+      {selectedMeal && (
+        <div className="div-btn">
+          <button type="button" onClick={fetchRecipe}>
+            Generate Recipe
+          </button>
+        </div>
+      )}
 
       {/* Recipe Section */}
-      <p className="recipe-grt">Recipe of foodname for {studentNumber || "XXXX"} Student</p>
-      <hr />
-      <div className="xt-area">
-        <label htmlFor="ext-area">Follow this Guide</label>
-        <textarea style={{ width: "100%", height: "150px" }}>
-          {meals.length > 0 ? meals[0]?.recipe : "No recipe available."}
-        </textarea>
-      </div>
-    </div>
-  );
-}
-
-// FoodItem Component
-function FoodItem({ name, description, image, ingredients, recipe }) {
-  return (
-    <div id="menu">
-      <div className="pic-holder">
-        <img src={image} alt={name} width="310px" height="250px" />
-      </div>
-      <div className="food-name">
-        <h3>{name}</h3>
-        <p>{description}</p>
-      </div>
+      {selectedMeal && (
+        <>
+          <p className="recipe-grt">Recipe of {selectedMeal.name} for {studentNumber || "XXXX"} Student</p>
+          <hr />
+          <div className="xt-area">
+            <label htmlFor="ext-area">Follow this Guide</label>
+            <textarea style={{ width: "100%", height: "150px" }} readOnly value={recipe}></textarea>
+          </div>
+        </>
+      )}
     </div>
   );
 }
