@@ -5,6 +5,7 @@ import fileUpload from "express-fileupload";
 // Import routes
 import mealRoutes from "./routes/meal.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import populationRoutes from "./routes/population.routes.js";
 
 // Import database connection
 import pool from './database.js'; // Adjust the path as needed
@@ -19,6 +20,7 @@ app.use(fileUpload())
 // Routes
 app.use("/api/meals", mealRoutes);
 app.use("/api/auth",userRoutes);
+app.use("/api/population", populationRoutes);
 
 // Test database connection
 async function testConnection() {

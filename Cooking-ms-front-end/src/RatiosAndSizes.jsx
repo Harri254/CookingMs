@@ -9,6 +9,13 @@ function RatiosAndSizes() {
   const [error, setError] = useState(null);
   const [editingMeal, setEditingMeal] = useState(null);
 
+  // New states for population settings
+  const [studentNumber, setStudentNumber] = useState("");
+  const [teacherNumber, setTeacherNumber] = useState("");
+  const [totalPopulation, setTotalPopulation] = useState(0);
+  const [message, setMessage] = useState("");
+  const [populationError, setPopulationError] = useState("");
+
   // Fetch all meals
   useEffect(() => {
     const fetchMeals = async () => {
@@ -26,6 +33,48 @@ function RatiosAndSizes() {
     fetchMeals();
   }, []);
 
+  // Fetch population settings on component load
+  useEffect(() => {
+    const fetchPopulationSettings = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/population");
+        if (response.data) {
+          setStudentNumber(response.data.studentcount.toString());
+          setTeacherNumber(response.data.teachercount.toString());
+          setTotalPopulation(response.data.studentcount + response.data.teachercount);
+        }
+      } catch (err) {
+        console.error("Error fetching population settings:", err);
+        setPopulationError("Failed to fetch population settings. Please try again.");
+      }
+    };
+
+    fetchPopulationSettings();
+  }, []);
+
+  // Save population settings
+  const savePopulationSettings = async () => {
+    try {
+      const parsedStudentCount = parseInt(studentNumber, 10) || 0;
+      const parsedTeacherCount = parseInt(teacherNumber, 10) || 0;
+
+      const response = await axios.post("http://localhost:3000/api/population", {
+        studentCount: parsedStudentCount,
+        teacherCount: parsedTeacherCount,
+      });
+
+      if (response.data) {
+        setMessage("Population settings saved successfully!");
+        setPopulationError("");
+        setTotalPopulation(parsedStudentCount + parsedTeacherCount);
+      }
+    } catch (err) {
+      console.error("Error saving population settings:", err);
+      setPopulationError("Failed to save population settings. Please check console for details.");
+      setMessage("");
+    }
+  };
+
   // Fetch a specific meal for editing
   const handleEditMeal = async (mealId) => {
     try {
@@ -33,7 +82,7 @@ function RatiosAndSizes() {
         alert("Invalid meal ID");
         return;
       }
-  
+
       const response = await axios.get(`http://localhost:3000/api/meals/${mealId}`);
       setEditingMeal(response.data);
     } catch (err) {
@@ -49,14 +98,14 @@ function RatiosAndSizes() {
         alert("Invalid meal ID");
         return;
       }
-  
+
       // Confirm deletion with the user
       const confirmDelete = window.confirm("Are you sure you want to delete this meal?");
       if (!confirmDelete) return;
-  
+
       const response = await axios.delete(`http://localhost:3000/api/meals/${mealId}`);
       console.log("Delete Response:", response.data); // Log the delete response
-  
+
       if (response.data) {
         setMeals((prevMeals) => prevMeals.filter((meal) => meal.id !== mealId));
         alert("Meal deleted successfully!");
@@ -96,6 +145,46 @@ function RatiosAndSizes() {
         ) : (
           <p style={{ textAlign: "center" }}>No meals found.</p>
         )}
+      </div>
+
+      {/* Population Settings Section */}
+      <div className="population-settings-section">
+        <h4>Set Population</h4>
+        <hr />
+
+        {/* Student Input */}
+        <div className="input-group">
+          <label>Number of Students:</label>
+          <input
+            type="number"
+            value={studentNumber}
+            onChange={(e) => setStudentNumber(e.target.value)}
+            min="0"
+          />
+        </div>
+
+        {/* Teacher Input */}
+        <div className="input-group">
+          <label>Number of Teachers:</label>
+          <input
+            type="number"
+            value={teacherNumber}
+            onChange={(e) => setTeacherNumber(e.target.value)}
+            min="0"
+          />
+        </div>
+
+        {/* Total Population Display */}
+        <div className="total-population">
+          <p>Total Population: {totalPopulation}</p>
+        </div>
+
+        {/* Save Button */}
+        <button onClick={savePopulationSettings}>Save Population Settings</button>
+
+        {/* Messages */}
+        {message && <p style={{ color: "green" }}>{message}</p>}
+        {populationError && <p style={{ color: "red" }}>{populationError}</p>}
       </div>
 
       {/* Edit Meal Form */}
