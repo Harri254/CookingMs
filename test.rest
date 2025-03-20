@@ -9,3 +9,9 @@ DELETE  http://localhost:3000/api/auth/mngUsers/del/Katu
 
 ###
 GET http://localhost:3000/api/auth/mngUsers
+
+###
+get http://localhost:3000/api/meals/1
+
+###
+DELETE  http://localhost:3000/api/meals/21

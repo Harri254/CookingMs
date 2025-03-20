@@ -29,10 +29,15 @@ function RatiosAndSizes() {
   // Fetch a specific meal for editing
   const handleEditMeal = async (mealId) => {
     try {
+      if (!mealId || isNaN(mealId)) {
+        alert("Invalid meal ID");
+        return;
+      }
+  
       const response = await axios.get(`http://localhost:3000/api/meals/${mealId}`);
       setEditingMeal(response.data);
     } catch (err) {
-      console.error("Error fetching meal:", err);
+      console.error("Error fetching meal:", err.response?.data || err.message);
       alert("Failed to fetch meal. Please check console for details.");
     }
   };
@@ -40,7 +45,18 @@ function RatiosAndSizes() {
   // Handle deleting a meal
   const handleDeleteMeal = async (mealId) => {
     try {
+      if (!mealId || isNaN(mealId)) {
+        alert("Invalid meal ID");
+        return;
+      }
+  
+      // Confirm deletion with the user
+      const confirmDelete = window.confirm("Are you sure you want to delete this meal?");
+      if (!confirmDelete) return;
+  
       const response = await axios.delete(`http://localhost:3000/api/meals/${mealId}`);
+      console.log("Delete Response:", response.data); // Log the delete response
+  
       if (response.data) {
         setMeals((prevMeals) => prevMeals.filter((meal) => meal.id !== mealId));
         alert("Meal deleted successfully!");

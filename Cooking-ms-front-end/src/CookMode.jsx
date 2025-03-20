@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import InputSample from './InputSample.jsx';
 import useFetchMeals from './hooks/useFetchMeals.jsx';
-import './cookMode.css'
+import './cookMode.css';
 
 function CookMode() {
   const [searchTerm, setSearchTerm] = useState(""); // For searching meals
@@ -18,16 +18,12 @@ function CookMode() {
     meal.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  
   // Handle meal selection
   const handleMealSelect = (meal) => {
-    
     setSelectedMeal(meal);
-    setRecipe("");
-    
-    // Reset recipe when a new meal is selected
+    setRecipe(""); // Reset recipe when a new meal is selected
   };
-  
+
   // Fetch recipe for the selected meal
   const fetchRecipe = async () => {
     if (!selectedMeal) {
@@ -39,7 +35,11 @@ function CookMode() {
       const response = await fetch(
         `http://localhost:3000/api/meals/${selectedMeal.id}`
       );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
       const data = await response.json();
+      console.log("Backend Response:", data); // Log the response for debugging
       setRecipe(data.recipe || "No recipe available.");
     } catch (err) {
       console.error("Error fetching recipe:", err);

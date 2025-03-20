@@ -115,20 +115,18 @@ function NewMeal({ editingMeal, setEditingMeal }) {
       setError("");
     } else {
       setError("Please upload a valid image file (JPEG/PNG under 5MB).");
-      setFile(null);
     }
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validation
+  
     if (!mealName || !mealDescription || ingredientsList.length === 0 || !recipe || !file) {
       setError("Please fill all required fields.");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("mealName", mealName);
     formData.append("mealDescription", mealDescription);
@@ -137,28 +135,27 @@ function NewMeal({ editingMeal, setEditingMeal }) {
     formData.append("mainIngredients", JSON.stringify(mainIngredients));
     formData.append("recipe", recipe);
     formData.append("image", file);
-
+  
     try {
       const url = editingMeal
         ? `http://localhost:3000/api/meals/${editingMeal.id}`
         : "http://localhost:3000/api/meals/new";
       const method = editingMeal ? "put" : "post";
-
+  
       const response = await axios[method](url, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+  
       if (response.data) {
         setMessage(editingMeal ? "Meal updated successfully!" : "Meal added successfully!");
         resetForm();
-        if (setEditingMeal) setEditingMeal(null); // Exit edit mode
+        if (setEditingMeal) setEditingMeal(null);
       }
     } catch (err) {
       console.error("Submission Error:", err);
       setError("Failed to save meal. Please check console for details.");
     }
   };
-
   // Reset form fields
   const resetForm = () => {
     setMealName("");
@@ -177,6 +174,7 @@ function NewMeal({ editingMeal, setEditingMeal }) {
     <div className="add-meal">
       <h4>{editingMeal ? "Edit Meal" : "Add New Meal"}</h4>
       <hr />
+
       {/* Meal Name */}
       <div className="meal-name">
         <label>Meal Name:</label>
@@ -187,6 +185,7 @@ function NewMeal({ editingMeal, setEditingMeal }) {
           onChange={(e) => setMealName(e.target.value)}
         />
       </div>
+
       {/* Meal Description */}
       <div className="meal-name">
         <label>Description:</label>
@@ -197,6 +196,7 @@ function NewMeal({ editingMeal, setEditingMeal }) {
           onChange={(e) => setMealDescription(e.target.value)}
         />
       </div>
+
       {/* Ingredients Input */}
       <div className="ingredient-holder">
         <label>Enter Ingredients (comma):</label>
@@ -208,6 +208,7 @@ function NewMeal({ editingMeal, setEditingMeal }) {
         />
         <button onClick={handleAddIngredients}>Add Ingredients</button>
       </div>
+
       {/* Ratios Table */}
       {ingredientsList.length > 0 && (
         <table className="meal-table">
@@ -277,12 +278,14 @@ function NewMeal({ editingMeal, setEditingMeal }) {
           </tbody>
         </table>
       )}
+
       {/* Image Upload */}
       <div className="image-holder">
         <label>Upload your meal picture:</label>
         <input type="file" accept="image/*" onChange={handleFileChange} />
         {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
+
       {/* Recipe Input */}
       <div className="txt-area">
         <label htmlFor="recipe">Enter the Recipe:</label>
@@ -296,6 +299,7 @@ function NewMeal({ editingMeal, setEditingMeal }) {
           onChange={(e) => setRecipe(e.target.value)}
         ></textarea>
       </div>
+
       {/* Submit Button */}
       <div className="add-meal-btn">
         <button type="submit" onClick={handleSubmit}>
