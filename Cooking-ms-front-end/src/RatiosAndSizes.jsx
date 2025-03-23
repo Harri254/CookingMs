@@ -180,7 +180,10 @@ function RatiosAndSizes() {
         </div>
 
         {/* Save Button */}
-        <button onClick={savePopulationSettings}>Save Population Settings</button>
+        <div className="save-p">
+          <button onClick={savePopulationSettings}>Save Population Settings</button>
+        </div>
+        
 
         {/* Messages */}
         {message && <p style={{ color: "green" }}>{message}</p>}

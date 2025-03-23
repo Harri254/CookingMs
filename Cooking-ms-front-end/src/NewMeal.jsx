@@ -23,12 +23,10 @@ function NewMeal({ editingMeal, setEditingMeal }) {
   // Add new ingredients to the list
   const handleAddIngredients = () => {
     if (!newIngredientString.trim()) return;
-
     const newIngredients = newIngredientString
       .split(/[,]/)
       .map((ingredient) => capitalizeFirstLetter(ingredient.trim()))
       .filter((ingredient) => ingredient !== "");
-
     const updatedIngredientsList = Array.from(new Set([...ingredientsList, ...newIngredients]));
     setIngredientsList(updatedIngredientsList);
     setNewIngredientString("");
@@ -56,19 +54,15 @@ function NewMeal({ editingMeal, setEditingMeal }) {
       alert("Ingredient already exists.");
       return;
     }
-
     const updatedIngredientsList = ingredientsList.map((ing) =>
       ing === editingIngredient ? editedIngredientName : ing
     );
-
     const updatedRatios = { ...ratios };
     updatedRatios[editedIngredientName] = updatedRatios[editingIngredient];
     delete updatedRatios[editingIngredient];
-
     const updatedMainIngredients = { ...mainIngredients };
     updatedMainIngredients[editedIngredientName] = updatedMainIngredients[editingIngredient];
     delete updatedMainIngredients[editingIngredient];
-
     setIngredientsList(updatedIngredientsList);
     setRatios(updatedRatios);
     setMainIngredients(updatedMainIngredients);
@@ -87,7 +81,7 @@ function NewMeal({ editingMeal, setEditingMeal }) {
   // Handle ratio changes
   const handleRatioChange = (ingredient, value) => {
     const parsedValue = parseFloat(value);
-    if (!isNaN(parsedValue)) {
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 10) {
       setRatios((prevRatios) => ({
         ...prevRatios,
         [ingredient]: parsedValue,
@@ -115,18 +109,17 @@ function NewMeal({ editingMeal, setEditingMeal }) {
       setError("");
     } else {
       setError("Please upload a valid image file (JPEG/PNG under 5MB).");
+      setFile(null);
     }
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     if (!mealName || !mealDescription || ingredientsList.length === 0 || !recipe || !file) {
       setError("Please fill all required fields.");
       return;
     }
-  
     const formData = new FormData();
     formData.append("mealName", mealName);
     formData.append("mealDescription", mealDescription);
@@ -135,17 +128,15 @@ function NewMeal({ editingMeal, setEditingMeal }) {
     formData.append("mainIngredients", JSON.stringify(mainIngredients));
     formData.append("recipe", recipe);
     formData.append("image", file);
-  
+
     try {
       const url = editingMeal
         ? `http://localhost:3000/api/meals/${editingMeal.id}`
         : "http://localhost:3000/api/meals/new";
       const method = editingMeal ? "put" : "post";
-  
       const response = await axios[method](url, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-  
       if (response.data) {
         setMessage(editingMeal ? "Meal updated successfully!" : "Meal added successfully!");
         resetForm();
@@ -156,6 +147,7 @@ function NewMeal({ editingMeal, setEditingMeal }) {
       setError("Failed to save meal. Please check console for details.");
     }
   };
+
   // Reset form fields
   const resetForm = () => {
     setMealName("");
@@ -174,7 +166,6 @@ function NewMeal({ editingMeal, setEditingMeal }) {
     <div className="add-meal">
       <h4>{editingMeal ? "Edit Meal" : "Add New Meal"}</h4>
       <hr />
-
       {/* Meal Name */}
       <div className="meal-name">
         <label>Meal Name:</label>
@@ -185,7 +176,6 @@ function NewMeal({ editingMeal, setEditingMeal }) {
           onChange={(e) => setMealName(e.target.value)}
         />
       </div>
-
       {/* Meal Description */}
       <div className="meal-name">
         <label>Description:</label>
@@ -196,7 +186,6 @@ function NewMeal({ editingMeal, setEditingMeal }) {
           onChange={(e) => setMealDescription(e.target.value)}
         />
       </div>
-
       {/* Ingredients Input */}
       <div className="ingredient-holder">
         <label>Enter Ingredients (comma):</label>
@@ -208,7 +197,6 @@ function NewMeal({ editingMeal, setEditingMeal }) {
         />
         <button onClick={handleAddIngredients}>Add Ingredients</button>
       </div>
-
       {/* Ratios Table */}
       {ingredientsList.length > 0 && (
         <table className="meal-table">
@@ -278,14 +266,12 @@ function NewMeal({ editingMeal, setEditingMeal }) {
           </tbody>
         </table>
       )}
-
       {/* Image Upload */}
       <div className="image-holder">
         <label>Upload your meal picture:</label>
         <input type="file" accept="image/*" onChange={handleFileChange} />
         {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
-
       {/* Recipe Input */}
       <div className="txt-area">
         <label htmlFor="recipe">Enter the Recipe:</label>
@@ -299,7 +285,6 @@ function NewMeal({ editingMeal, setEditingMeal }) {
           onChange={(e) => setRecipe(e.target.value)}
         ></textarea>
       </div>
-
       {/* Submit Button */}
       <div className="add-meal-btn">
         <button type="submit" onClick={handleSubmit}>

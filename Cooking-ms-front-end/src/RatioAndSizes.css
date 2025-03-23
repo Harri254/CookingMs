@@ -206,6 +206,7 @@
   .add-meal-btn button {
     padding: 10px 20px;
     background-color: #28a745;
+    height: fit-content;
     color: white;
     border: none;
     border-radius: 5px;

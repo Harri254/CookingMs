@@ -721,6 +721,7 @@ p.content{
 .population-settings-section {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
+  width: clamp(280px,100%, 100%);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
@@ -729,7 +730,7 @@ p.content{
 }
 
 .population-settings-section h4 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 10px;
   color: #333;
@@ -739,6 +740,30 @@ p.content{
   border: none;
   border-top: 1px solid #ddd;
   margin: 10px 0 20px;
+}
+.population-settings-section p{
+  margin: 20px;
+  font-size: 1.4em;
+  text-align: center;
+  color: red;
+}
+.population-settings-section .save-p{
+  display: flex;
+  justify-content: center;
+}
+.population-settings-section button{
+  background-color: #0056b3;
+  border: none;
+  border-radius: 15px;
+  width: 240px;
+  height: 2.8em;
+  font-size: 1.2em;
+  color: white;
+}
+.population-settings-section button:hover{
+  background: green;
+  color: black;
+  cursor: pointer;
 }
 
 /* Input Group */
@@ -750,8 +775,8 @@ p.content{
 }
 
 .input-group label {
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #555;
   margin-right: 10px;
   flex: 1;
@@ -759,7 +784,7 @@ p.content{
 
 .input-group input {
   padding: 8px;
-  font-size: 1rem;
+  font-size: 1.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 60%;
@@ -804,6 +829,6 @@ p.content{
 }
 
 .save-button:disabled {
-  background-color: #ccc;
+  background-color: #2d30e7;
   cursor: not-allowed;
 }

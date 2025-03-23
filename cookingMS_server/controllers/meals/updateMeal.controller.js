@@ -6,26 +6,33 @@ const updatingMeal = async (req, res) => {
     const {
       mealName,
       mealDescription,
-      ingredientsList, // Array of ingredients
-      ratios, // Ratios for each ingredient
-      mainIngredients, // Main ingredient status
-      recipe, // Recipe steps
+      ingredientsList,
+      ratios,
+      mainIngredients,
+      recipe,
     } = req.body;
+
+    // Access the uploaded file buffer (if any)
     const image = req.file ? req.file.buffer : null;
+
+    // Log incoming data for debugging
+    console.log("Request Body:", req.body);
+    console.log("Uploaded File:", req.file);
 
     // Start a transaction to ensure atomicity
     await pool.query("BEGIN");
 
     try {
       // Update the Meal table
-      const query = `
+      let query = `
         UPDATE "Meal"
-        SET name = $1, description = $2 ${image ? ", image_data = $3" : ""}
-        WHERE id = ${mealId}
+        SET name = $1, description = $2, image_data = $3
+        WHERE id = $4
         RETURNING id
       `;
+      const imageValue = image || null; // Use null if no new image is uploaded
+      const values = [mealName, mealDescription, imageValue, mealId];
 
-      const values = image ? [mealName, mealDescription, image] : [mealName, mealDescription];
       const result = await pool.query(query, values);
 
       if (result.rows.length === 0) {
@@ -57,7 +64,7 @@ const updatingMeal = async (req, res) => {
         VALUES ($1, $2, $3, $4)
       `;
 
-      for (const ingredient of ingredientsList) {
+      for (const ingredient of JSON.parse(ingredientsList)) {
         const ingredientId = await getOrCreateIngredientId(ingredient); // Helper function to get or create ingredient ID
         await pool.query(ingredientInsertQuery, [
           mealId,
@@ -78,7 +85,7 @@ const updatingMeal = async (req, res) => {
     }
   } catch (err) {
     console.error("Error updating meal:", err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error", details: err.message });
   }
 };
 
