@@ -16,9 +16,9 @@ import './index.css';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/CookingMs">
       <Header />
-      <Routes basename="/CookingMs">
+      <Routes >
         <Route path="/" element={<Login />} /> 
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/forgot-password" element={<ForgetPassword />} />
