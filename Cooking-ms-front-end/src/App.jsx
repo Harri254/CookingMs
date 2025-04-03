@@ -16,10 +16,10 @@ import './index.css';
 
 function App() {
   return (
-    <Router basename="/CookingMs/">
+    <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<Login />} /> 
+        <Route path="/CookingMs" element={<Login />} /> 
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/forgot-password" element={<ForgetPassword />} />
         <Route path="/admin" element={<AdminLandingPage />} />
