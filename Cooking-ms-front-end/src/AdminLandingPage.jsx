@@ -1,27 +1,66 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import ManageUsers from "./ManageUsers.jsx";
-import CreateAccount from './CreateAccount.jsx';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faUtensils,
+  faChartPie,
+  faPlusCircle,
+  faUserPlus,
+  faBell,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
+import './AdminLandingPage.css';
 
-function AdminLandingPage(){
-    return(
-        <div className="main-container">
-            <Link to="/admin/message"><AdminRole name="&#9993;" id="message"/></Link>
-            <Link to="/admin/cook-mode"><AdminRole name="Cook Mode" id="cook-mode"/></Link>
-            <Link to="/admin/ratio-and-sizes"><AdminRole name="Ratio and Sizes" id="ratio-sizes"/></Link>
-            <Link to="/admin/add-new-meal"><AdminRole name="Add New Meal/Update" id="add-meal"/></Link>
-            <Link to="/create-account"><AdminRole name="Add Cook/Staff" id="add-cook"/></Link>
-            <Link to="/admin/visitors"><AdminRole name="Alert Cook About Visitor" id="alert-cook"/></Link>
-            <Link to="/admin/mngUsers"><AdminRole name="Manage Users"/></Link>
-        </div>
-    );
+function AdminLandingPage() {
+  return (
+    <div className="admin-container">
+      <h1 className="admin-title">Admin Dashboard</h1>
+      <div className="admin-grid">
+        {/* Message */}
+        <Link to="/admin/message" className="admin-card">
+          <FontAwesomeIcon icon={faEnvelope} className="admin-icon" />
+          <p className="admin-card-text">Messages</p>
+        </Link>
+
+        {/* Cook Mode */}
+        <Link to="/admin/cook-mode" className="admin-card">
+          <FontAwesomeIcon icon={faUtensils} className="admin-icon" />
+          <p className="admin-card-text">Cook Mode</p>
+        </Link>
+
+        {/* Ratio and Sizes */}
+        <Link to="/admin/ratio-and-sizes" className="admin-card">
+          <FontAwesomeIcon icon={faChartPie} className="admin-icon" />
+          <p className="admin-card-text">Ratio and Sizes</p>
+        </Link>
+
+        {/* Add New Meal */}
+        <Link to="/admin/add-new-meal" className="admin-card">
+          <FontAwesomeIcon icon={faPlusCircle} className="admin-icon" />
+          <p className="admin-card-text">Add New Meal/Update</p>
+        </Link>
+
+        {/* Create Account */}
+        <Link to="/create-account" className="admin-card">
+          <FontAwesomeIcon icon={faUserPlus} className="admin-icon" />
+          <p className="admin-card-text">Add Cook/Staff</p>
+        </Link>
+
+        {/* Alert Cook About Visitor */}
+        <Link to="/admin/visitors" className="admin-card">
+          <FontAwesomeIcon icon={faBell} className="admin-icon" />
+          <p className="admin-card-text">Alert Cook About Visitor</p>
+        </Link>
+
+        {/* Manage Users */}
+        <Link to="/admin/mngUsers" className="admin-card">
+          <FontAwesomeIcon icon={faUsers} className="admin-icon" />
+          <p className="admin-card-text">Manage Users</p>
+        </Link>
+      </div>
+    </div>
+  );
 }
 
-function AdminRole(props){
-    return(
-            <div className="items " id={props.id}>
-                <p className="content">{props.name}</p>
-            </div>
-    );
-}
-
-export default AdminLandingPage
+export default AdminLandingPage;

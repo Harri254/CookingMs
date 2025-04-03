@@ -1,0 +1,215 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.cook-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #2d3748;
+  text-align: center;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 1rem 0;
+}
+
+
+
+.inputs {
+  display: flex;
+  flex-direction: row; /* Stack inputs vertically by default */
+  gap: 1rem; /* Spacing between input fields */
+  margin-top: 1.5rem;
+  width: 100%;
+  flex-wrap: wrap;
+  max-width: 900px; 
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.inputs .input-sample {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem; /* Spacing between label and input */
+}
+.input-div{
+  display: flex;
+  flex-direction: row;
+  /* width: min(280px, 100%); */
+}
+.input-div label{
+  margin: 0;
+  height: 40px;
+  line-height: 40px;
+}
+#input-search-meal, #input-student-no , #input-teacher-no {
+  width: 70px;
+  height: fit-content;
+}
+#input-search-meal{
+  width: 180px;
+}
+.inputs label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.inputs input[type="text"],
+.inputs input[type="number"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.inputs input[type="text"]:focus,
+.inputs input[type="number"]:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+}
+
+@media (min-width: 768px) {
+  .inputs {
+    flex-direction: row; /* Arrange inputs horizontally on larger screens */
+    align-items: flex-start;
+    gap: 1.5rem; /* Adjust spacing for horizontal layout */
+  }
+
+  .inputs .input-sample {
+    flex: 1; /* Allow inputs to grow and fill available space */
+  }
+}
+.total-population {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  background-color: lightblue; /* Temporary debug style */
+}
+
+.meal-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.meal-item {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: calc(33% - 1.5rem);
+  height: fit-content;
+}
+
+.meal-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.meal-item.selected {
+  border-color: #4299e1;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.meal-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.meal-text h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.meal-text p {
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.id-cook-mode {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.id-cook-mode th,
+.id-cook-mode td {
+  border: 1px solid #e2e8f0;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.id-cook-mode th {
+  background-color: #f9fafb;
+  font-weight: bold;
+}
+
+.div-btn {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.div-btn button {
+  background-color: #4299e1;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.div-btn button:hover {
+  background-color: #3182ce;
+}
+
+.xt-area textarea {
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  resize: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .meal-item {
+    width: calc(50% - 1.5rem); /* Two cards per row on medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .meal-item {
+    width: 100%; /* One card per row on small screens */
+  }
+}

@@ -1,691 +1,111 @@
-body{
+/* Root Element Styles */
+:root {
+  /* Colors */
+  --primary-color: #4299e1; /* Primary theme color (blue) */
+  --secondary-color: #68d391; /* Secondary theme color (green) */
+  --text-color: #2d3748; /* Default text color (dark gray) */
+  --background-color: #dbe3ea; /* Light background color */
+  --border-color: #e2e8f0; /* Light border color */
+
+  /* Typography */
+  --font-family: "Roboto", sans-serif; /* Default font */
+  --font-size-base: 1rem; /* Base font size (16px) */
+  --line-height-base: 1.5; /* Base line height */
+
+  /* Spacing */
+  --spacing-small: 0.5rem; /* Small spacing */
+  --spacing-medium: 1rem; /* Medium spacing */
+  --spacing-large: 2rem; /* Large spacing */
+
+  /* Box Shadows */
+  --box-shadow-small: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  --box-shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1); /* Medium shadow */
+}
+
+html,
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--text-color);
+  background-color: var(--background-color);
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  -webkit-font-smoothing: antialiased; /* Smooth font rendering */
+  -moz-osx-font-smoothing: grayscale; /* Smooth font rendering on macOS */
+}
+
+body,html {
   margin: 0;
-}
-*{
-  box-sizing: border-box;
-}
-.header{
-  text-align: center;
-  background: linear-gradient(to right, hsla(0, 58%, 45%, 0.59), hsla(60, 3%, 6%, 0.886));
-  width: max( 80%,300px);
-  margin: 20px auto;
-  background-clip: text;
-  color: transparent;
-}
-.form{
-  /* border: 1px solid rgba(0, 0, 0, 0.723); */
+  min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 6.0em;
-}
-#form{
-  display: flex;
-  flex-direction: column;
-  width: min( 90%,300px);
-  h2{
-    margin-left: -0.8rem;
-    font-size: 1.6em;
-  }
-}
-#form div{
-  font-size: 1.5em;
-  display: flex;
-  flex-direction: column;
-  margin-bottom:1.5rem ;
-  label{
-    margin-bottom: .6rem;
-  }
-  input{
-    height: 2.5em;
-  }
-}
-p{
-  margin: 0;
-}
-#form .others{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: .6em;
-  font-size: 1.1rem;
-  height: 30px;
-  line-height: 30px;
-  a{
-    text-decoration: none;
-  }
-}
-.forgetPassword, .createAccount{
-  margin: 0;
-}
-#btn{
-  width:min( 80%,300px);
-  margin: 0 auto;
-  font-size: 1.5em;
-  background-color: rgba(6, 6, 167, 0.83);
-  border: 0;
-  border-radius: 10px;
-  padding: 5px 0;
-}
-#btn:hover{
-  background-color: rgba(232, 180, 23, 0.83);
-  cursor: pointer;
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Align content to the top */
 }
 
-/* Create account style */
-.ca-main-div{
-  display: flex;
-  justify-content: center;
-}
-.para{
-  font-size: 1.5rem;
-  margin: 0 0 15px;
-  color: hsla(240, 96%, 19%, 0.793);
-}
-h3{
-  margin: 0;
-  font-size: 1.5em;
-}
-#ca-form{
-  width: clamp(200px,95%,700px);
-}
-#ca-form div{
-  width: 90%;
-  margin: 10px auto;
-  display: flex;
-  flex-direction: column;
-  font-size: 1.5em;
-  label{
-    margin-bottom: 8px;
-  }
-  input{
-    height: 1.6em;
-  }
-}
-.ca-btn{
-  width: 90%;
-  height: 40px;
-} 
-#ca-btn{
-  width:min( 80%,300px);
-  margin: 0 auto;
-  font-size: 1.0em;
-  background-color: rgba(6, 6, 167, 0.83);
-  border: 0;
-  border-radius: 10px;
-  /* padding: 5px 0; */
-}
-#ca-btn:hover{
-  background-color: rgba(232, 180, 23, 0.83);
-  cursor: pointer;
-}
-@media (min-width:640px) {
-  #ca-form{
-    margin-top: 3%;
-  }
-  #ca-form div{
-    margin-top: 3%;
-    font-size: 1.8em;
-    flex-direction: row;
-    height: fit-content;
-    label, input{
-      width: 50%;
-    }
-    input{
-      height: 35px;
-    }
-  }
-  #ca-btn{
-    height: 40px;
-    font-size: .6em;
-  }
+/* Global Link Styles */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease; /* Smooth hover effect */
 }
 
-
-/* Forget Password styles */
-.fp-form-div{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-}
-.fp-form-div h2{
-  margin-top: 0;
-}
-.fp-form-div form{
-  width:clamp(200px,90%,600px);
-}
-.email-wrap{
-  display: flex;
-  flex-direction: column;
-  font-size: 1.2em;
-  label{
-    margin-bottom: 10px;
-  }
-  input{
-    height: 2.5em;
-  }
+a:hover {
+  color: var(--secondary-color);
 }
 
-.fp-btn{
-  display: flex;
-  justify-content: center;
-  margin-top: -10px;
-  button{
-    width:min( 60%,200px);
-    background-color: rgb(4, 34, 203);
-    padding:5px ;
-    border: none;
-    border-radius: 5px;
-  }
-  button:hover{
-    background-color: rgba(232, 180, 23, 0.83);
-    cursor: pointer;
-  }
-}
-@media (min-width:600px) {
-  .email-wrap{
-    display: flex;
-    flex-direction: row;
-    font-size: 1.2em;
-    width: clamp(200px,80%,700px);
-    margin: 0 auto;
-    label{
-      width: 40%;
-    }
-    input{
-      width: 60%;
-      height: 2.0rem;
-    }
-  }
-}
-input.input-text{
-  margin-left: 10px;
-}
-
-/* Admin Landing Page */
-.main-container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: clamp(320px,80%,700px);
-  margin: 10vh auto;
-  font-size: 1.4em;
-  position: relative;
-  a{
-    width: min( 80%,300px);
-    text-decoration: none;
-  }
-  .items{
-    background-color: hsla(240, 94%, 43%, 0.834);
-    width: 100%;
-    color: wheat;
-    height: 50px;
-    margin-top: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 1.0rem;
-  }
-  .items:hover{
-    background-color: hsla(240, 93%, 16%, 0.936);
-    cursor: pointer;
-  }
-}
-p.content{
-  margin-bottom: 0;
-}
-#message{
-  position: absolute;
-  right: 15%;
-  height: fit-content;
-  width: fit-content;
-  padding: 0 .9rem;
-  background-color: hsla(240, 9%, 22%, 0.689);
-  top: -10vh;
-}
-#message:hover{
-  cursor: pointer;
-  background-color: hsla(240, 9%, 22%, 0.962);
-}
-@media(min-width:768px) {
-  .main-container{
-    margin-top: 15vh;
-
-    a{
-      width: min( 80%,400px);
-      cursor: default;
-    }
-    a .items{
-      width: 100%;
-    }
-  }
-}
-
-/* Visitors Styling */
-.vs-container{
-  font-size: 1.5rem;
-  width: clamp(320px,80%,700px);
-  margin: 0 auto;
-  h4{
-    margin-bottom: 0.5em;
-  }
-  form{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    align-items: center;
-    justify-content: center;
-    div{
-      display: flex;
-      flex-direction: column;
-      margin-left: 5%;
-      width: 95%;
-      label{
-        width: fit-content;
-      }
-      input{
-        width: max(280px,80%);
-        height: 2.8em;
-        margin: 10px 6% 15px;
-      }
-      #vs-message{
-        margin-top: 10px;
-        width: max(280px,80%);
-        margin: 10px 6% 15px;
-      }
-    }
-    #vs-submit{
-      background-color: hsla(240, 96%, 46%, 0.745);
-      margin: 10px auto;
-      width: 60%;
-      height: 2.5em;
-      font-size: 1.0rem;
-      border-radius: 10px;
-      border: none;
-    }
-    #vs-submit:hover{
-      background-color: hsla(240, 100%, 20%, 0.892);
-      cursor: pointer;
-    }
-  }
-}
-
-/* Sizes and Ratio Styling */
-.rs-container{
-  width: clamp(320px,80%,700px);
-  padding: 0 10px;
-  font-size: 1.2rem; 
-  margin: 0 auto;
-  h4{
-    margin-top: 1.2rem;
-    margin-bottom: 0.5rem;
-    font-size: 1.2em;
-  }
-  #search-rs{
-    width: 250px;
-    margin-left: 15vw;
-    height: 2.2em;
-  }
-  fieldset{
-    border: none;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    div{
-      display: flex;
-
-      input{
-        width: 30px;
-        margin: 0 10px;
-      }
-      
-    }
-    legend{
-      text-decoration: underline;
-      margin: 0 -10px;
-    }
-    }
-  }
-  .fc-btns,.fc2-btns{
-    width: 100%;
-    display: flex;
-    margin: 1.2rem 0;
-    padding-bottom: 1.2rem;
-    border-bottom: 2px solid brown;
-    button{
-      margin-right: 1.2em;
-    }
-  }
-  .container-for-wrap{
-    display: flex;
-    column-gap: 3vh;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .std-population{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 20px;
-  }
-  .inputing-changed-value{
-    display: flex;
-    justify-content: space-around;
-    input{
-      width: 40%;
-    }
-  }
-
-  /* New Meal styling space */
-  .add-meal{
-    width: clamp(310px, 80%, 700px);
-    margin: 0 auto;
-  }
-  .add-meal>h4{
-    font-size: 2.0em;
-    text-align: center;
-    margin: 0;
-    text-decoration: underline;
-  }
-  .meal-name, .ingredient-holder{
-    display: flex;
-    flex-direction: column;
-    font-size: 1.5em;
-  }
-  .meal-name input, .ingredient-holder input{
-    width: 80%;
-    margin-left: 10%;
-    height: 29px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  .add-ingred{
-    height: 30px;
-    width: 200px;
-    background-color: blue;
-    font-size: .9em;
-    border: none;
-    border-radius: 10px;
-    margin: 0 auto;
-  }
-  .add-ingred:hover{
-    cursor: pointer;
-    background-color: rgba(232, 180, 23, 0.83);
-  }
-  .meal-table{
-    border: 1px solid black;
-    width: 80%;
-    margin:20px auto;
-    border-collapse: collapse;
-  }
-  .meal-table th, .meal-table td{
-    font-style: italic;
-    border: 1px solid black;
-    font-size: 1.2em;
-  }
-  .meal-table tr{
-    text-align: center;
-    
-  }
-  .image-holder{
-    display: flex;
-    flex-direction: column;
-    font-size: 1.5em;
-  }
-  .image-holder input{
-    width: 80%;
-    margin-left: 10%;
-    height: 29px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  .txt-area{
-    display: flex;
-    flex-direction: column;
-    font-size: 1.5em;
-    width: clamp(310px,80%,900px);
-  }
-  .txt-area textarea{
-    height: 150px;
-    width: clamp(300px,80%,700px);
-    margin: 10px auto;
-    font-size: 1.1em;
-  }
- input{
-  font-size: .8em;
- }
- .add-meal-btn{
-  display: flex;
-  justify-content: center;
- }
- #add-meal-btn{
-  width: 200px;
-  margin: 10px auto;
+/* Global Button Styles */
+button {
+  font-family: inherit; /* Use the same font as the rest of the app */
+  font-size: inherit; /* Inherit font size */
+  background-color: var(--primary-color);
+  color: white;
   border: none;
-  background-color: blue;
-  height: 30px;
-  border-radius: 10px;
-  font-size: 1.5em;
- }
- #add-meal-btn:hover{
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
   cursor: pointer;
-  background-color: rgba(232, 180, 23, 0.83);
-}
-#checkbox-size{
-  height: 25px;
-}
-/* Cook mode Styling */
-.cook-container{
-  width: clamp(320px,80%,900px);
-  margin: 0 auto;
-  font-size: 1.2rem;
-  /* *:not(hr,table,.admin-sms){
-    
-  } */
-  h2{
-    margin: 0;
-    margin-left: 10px;
-  }
-  .ck-sms{
-    width: 50px;
-    height: 30px;
-    margin-left: auto;
-    margin-right: 5vw;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    font-size: 1.8em;
-    justify-content: center;
-  }
-  .id-cook-mode{
-    margin: 10px auto;
-    border: 1px solid rgb(0, 0, 0);
-    text-align: center;
-    font-size: 1.2em;
-    tr,td,th{
-      margin: 5px;
-      border: 1px dotted black;
-    }
-    td,th{
-      margin: o 10px;
-    }
-  }
-  .inputs{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    .input-div{
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        margin: 10px auto;
-        label{
-          margin-bottom: 10px;
-        }
-        input{
-          font-size: 1.2em;
-          width: 120px;
-          margin-left: 15px;
-        }
-      }
-  }
-  .xt-area{
-    display: flex;
-    flex-direction: column;
-    label{
-      font-size: 1.2em;
-    }
-    textarea{
-      width: clamp(300px,90%,500px);
-     margin: 1.2em auto;
-    }
-  } 
-  p{
-    margin-bottom: 0;
-    font-size: 1.3em;
-  }
-  .ingred{
-    margin-bottom: 1.2em;
-  }
-  .div-btn{
-    display: flex;
-    align-items: center;
-    button{
-      background-color: blue;
-      padding: 5px;
-      font-size: 1.2em;
-      width: 210px;
-      margin: 10px auto;
-      border: none;
-      border-radius: 5px;
-    }
-    button:hover{
-      cursor: pointer;
-      background-color:rgba(232, 180, 23, 0.83);
-    }
-  }
- input[type="checkbox"]{
-  height: 30px;
-  margin-top: 10px;
-  width: 50px;
-  
- }
-}
-.admin-sms{
-  width: 310px;
-  height: 300px;
-  margin: 0 auto;
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: blue;
-  font-size: 1.6em;
-  border-radius: 1.5em;
-  padding: 10px;
-  .sms-controls{
-    display: flex;
-    justify-content: space-around;
-    width: 70%;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    padding-top: 10px;
-    button{
-      font-size: 0.8em;
-      border-radius: 10px;
-      border: none;
-    }
-  }
-  label,textarea{
-    width: clamp(280px,90%,500px);
-    margin-bottom: 15px;
-    border-radius: 10px;
-  }
-}
-@media (min-width:768px){
-  .admin-sms{
-    width: 500px;
-  } 
-  textarea{
-    height: 300px;
-  }
+  transition: background-color 0.2s ease; /* Smooth hover effect */
 }
 
-/* Manage users styles */
-.manage-users{
-  width: clamp(320px,80%,700px);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  table{
-    font-size: 1.2em;
-    width: clamp(200px, 80%, 600px);
-    text-align: center;
-    border: 2px solid black;
-    border-collapse: collapse;
-  }
-  caption{
-    margin-bottom: 10px;
-    font-size: 1.5em;
-    text-decoration: underline;
-  }
-  th,td{
-    border: 2px solid black;
-  }
+button:hover {
+  background-color: var(--secondary-color);
+}
+/* Global Input Styles */
+input,
+textarea,
+select {
+  font-family: inherit; /* Use the same font as the rest of the app */
+  font-size: inherit; /* Inherit font size */
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  transition: border-color 0.2s ease; /* Smooth focus effect */
 }
 
-/* menu styling */
-#menu-holders{
-  width: 100%;
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: var(--box-shadow-small);
+}
+
+/* Disable Default Form Styles */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
   margin: 0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
 }
-#menu{
-  width: clamp(310px,500px,48%);
-  margin-left: 0;
-  border: 1.5px solid black;
-  background-color: aquamarine;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px;
-  /* margin-left: -10px; */
-  .pic-holder{
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    img{
-      width: 100%;
-      padding: 0;
-      margin: 0;
-      border-radius: 20px;
-      height: 280px;
-    }
-  }
-  .food-name{
-    text-align: center;
-    margin: 0;
-    h3{
-      margin: 0;
-    }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  html {
+    font-size: 90%; /* Reduce font size on smaller screens */
   }
 }
-@media (max-width:899px) {
-  #menu{
-    width: 500px;
-    /* height: 300px; */
+
+@media (max-width: 480px) {
+  html {
+    font-size: 85%; /* Further reduce font size on very small screens */
   }
 }

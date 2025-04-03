@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './CreateAccount.css';
+
 function CreateAccount() {
     // Correct usage of useState
     const [id, setId] = useState('');

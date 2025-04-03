@@ -13,7 +13,7 @@ CREATE TABLE "Meal" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
-    "picture_url" TEXT,
+    "image_data" BYTEA,
 
     CONSTRAINT "Meal_pkey" PRIMARY KEY ("id")
 );

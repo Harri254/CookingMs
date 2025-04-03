@@ -1,0 +1,121 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .ca-main-div {
+    max-width: 700px; /* Limit width for better readability */
+    margin: 2rem auto; /* Center the container */
+    padding: 2rem;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .para {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.0rem;
+    color: #2d3748;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 0;
+  }
+  
+  hr {
+    height: 2px;
+    color: #2d3748;
+    margin-top: 0;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: .50rem; /* Spacing between form elements */
+  }
+  
+  label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #4a5568;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+  }
+  .ca-btn{
+    display: flex;
+    justify-content: center;
+  }
+  button {
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: #4299e1;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #3182ce;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  
+  .success-message {
+    color: green;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .ca-main-div {
+      padding: 1.5rem;
+    }
+  
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      font-size: 0.9rem;
+      padding: 0.5rem;
+    }
+  
+    button {
+      font-size: 0.9rem;
+      padding: 0.5rem;
+    }
+  }
