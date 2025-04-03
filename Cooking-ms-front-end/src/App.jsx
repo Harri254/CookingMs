@@ -18,7 +18,7 @@ function App() {
   return (
     <Router>
       <Header />
-      <Routes>
+      <Routes basename="/CookingMs">
         <Route path="/" element={<Login />} /> 
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/forgot-password" element={<ForgetPassword />} />
