@@ -1,3 +1,4 @@
+import './AdminSms.css'
 
 function Message(){
     return (

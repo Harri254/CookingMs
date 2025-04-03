@@ -1,4 +1,5 @@
 import InputSample from "./InputSample";
+import './Visitors.css';
 
 function Visitors(){
     return(

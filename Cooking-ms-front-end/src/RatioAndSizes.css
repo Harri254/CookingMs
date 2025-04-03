@@ -1,293 +1,220 @@
-.ratios-and-sizes-container {
-    font-family: Arial, sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .population-section {
-    margin-bottom: 30px;
-  }
-  
-  .population-section h4 {
-    font-size: 1.2rem;
-    color: #333;
-  }
-  
-  .population-inputs {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .population-inputs label {
-    display: flex;
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f9fafb;
+  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.meal-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem; /* Spacing between cards */
+}
+
+.meal-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  width: min(300px, 80%);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%; /* Ensure all cards take up the same height */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+}
+
+.meal-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.meal-image {
+  width: 100%;
+  height: 150px; /* Fixed height for images */
+  object-fit: cover; /* Ensures images fill the container without distortion */
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.meal-details {
+  flex: 1; /* Allow details to grow and fill available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute space evenly */
+}
+
+.meal-details h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #2d3748;
+  word-wrap: break-word; /* Prevent long words from overflowing */
+}
+
+.meal-details p {
+  font-size: 0.9rem;
+  color: #4a5568;
+  margin-bottom: 1rem;
+  word-wrap: break-word; /* Prevent long descriptions from overflowing */
+}
+
+.meal-actions {
+  margin-top: auto; /* Push actions to the bottom of the card */
+  display: flex;
+  justify-content: space-around;
+}
+
+.meal-actions button {
+  font-family: inherit;
+  font-size: 0.9rem;
+  background-color: #4299e1;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.meal-actions button:hover {
+  background-color: #3182ce;
+}
+
+.meal-actions button.delete-btn {
+  background-color: #e53e3e; /* Red background for delete button */
+}
+
+.meal-actions button.delete-btn:hover {
+  background-color: #c53030; /* Darker red on hover */
+}
+
+.population-settings-section {
+  max-width: 600px; /* Limit width for better readability */
+  margin: 2rem auto; /* Center the container */
+  padding: 2rem;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.population-settings-section h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d3748;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.population-settings-section hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 1rem 0;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4a5568;
+  margin-right: 0.5rem;
+}
+
+.input-group input {
+  width: 60%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+}
+
+.total-population {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.save-p button {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: #4299e1;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.save-p button:hover {
+  background-color: #3182ce;
+}
+
+.success-message {
+  color: green;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .input-group {
     flex-direction: column;
-    gap: 5px;
-  }
-  
-  .population-inputs input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .population-inputs button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .meal-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .meal-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s ease;
-    cursor: pointer;
-  }
-  
-  .meal-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .meal-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
-  
-  .meal-details {
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .meal-details h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: #333;
-  }
-  
-  .meal-details p {
-    margin: 5px 0 0;
-    font-size: 0.9rem;
-    color: #666;
-  }
-  
-  .meal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .meal-actions button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .meal-actions button:first-child {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .meal-actions button:last-child {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  .edit-meal-form {
-    margin-top: 30px;
-  }
-  
-  .edit-meal-form div {
-    margin-bottom: 15px;
-  }
-  
-  .edit-meal-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .edit-meal-form input,
-  .edit-meal-form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .edit-meal-form button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .edit-meal-form button:last-child {
-    background-color: #6c757d;
-    margin-left: 10px;
+    align-items: flex-start;
   }
 
-  .add-meal {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .meal-table {
+  .input-group input {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .meal-table th,
-  .meal-table td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
-  }
-  
-  .meal-table th {
-    background-color: #f1f1f1;
-    font-weight: bold;
-  }
-  
-  .meal-table input[type="text"],
-  .meal-table input[type="number"] {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .meal-table button {
-    margin-right: 5px;
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .meal-table button:hover {
-    background-color: #0056b3;
-  }
-  
-  .txt-area textarea {
-    width: 100%;
-    height: 150px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .add-meal-btn button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    height: fit-content;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .add-meal-btn button:hover {
-    background-color: #218838;
+    margin-top: 0.5rem;
   }
 
-  .ratios-and-sizes-container {
-    font-family: Arial, sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .meal-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .meal-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s ease;
-    cursor: pointer;
-  }
-  
-  .meal-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .meal-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
-  
-  .meal-details {
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .meal-details h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: #333;
-  }
-  
-  .meal-details p {
-    margin: 5px 0 0;
+  .save-p button {
     font-size: 0.9rem;
-    color: #666;
+    padding: 0.5rem;
   }
-  
-  .meal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
+  .meal-list {
+    grid-template-columns: 1fr; /* Single column on small screens */
   }
-  
-  .meal-actions button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+
+  .meal-details h3 {
+    font-size: 1rem;
   }
-  
-  .meal-actions button:first-child {
-    background-color: #007bff;
-    color: white;
+
+  .meal-details p {
+    font-size: 0.8rem;
   }
-  
-  .meal-actions button:last-child {
-    background-color: #dc3545;
-    color: white;
-  }
+}
+

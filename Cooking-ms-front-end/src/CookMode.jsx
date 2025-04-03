@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import InputSample from './InputSample.jsx';
-import useFetchMeals from './hooks/useFetchMeals.jsx';
-import './cookMode.css';
+import InputSample from "./InputSample.jsx";
+import useFetchMeals from "./hooks/useFetchMeals.jsx";
+import "./cookMode.css";
 
 function CookMode() {
   const [searchTerm, setSearchTerm] = useState(""); // For searching meals
@@ -24,27 +24,31 @@ function CookMode() {
         }
         const data = await response.json();
         console.log("Fetched Population Settings:", data);
-  
+
         // Ensure studentCount and teacherCount are valid numbers
         const studentCount = parseInt(data.studentcount, 10) || 0;
         const teacherCount = parseInt(data.teachercount, 10) || 0;
-        console.log(studentCount,teacherCount);
 
         // Update state variables
-      setStudentNumber(studentCount.toString());
-      setTeacherNumber(teacherCount.toString());
-  
+        setStudentNumber(studentCount.toString());
+        setTeacherNumber(teacherCount.toString());
+
+        console.log("Updated State - Student Count:", studentCount, "Teacher Count:", teacherCount);
       } catch (err) {
         console.error("Error fetching population settings:", err);
         alert("Failed to fetch population settings. Please check console for details.");
       }
     };
-  
+
     fetchPopulationSettings();
   }, []);
 
-  if (loading) return <p>Loading meals...</p>;
-  if (error) return <p>{error}</p>;
+  // Log state values for debugging
+  useEffect(() => {
+    console.log("Student Number:", studentNumber);
+    console.log("Teacher Number:", teacherNumber);
+    console.log("Total Population:", totalPopulation);
+  }, [studentNumber, teacherNumber]);
 
   // Filter meals based on the search term
   const filteredMeals = meals.filter((meal) =>
@@ -81,7 +85,12 @@ function CookMode() {
   return (
     <div className="cook-container">
       {/* Message Icon */}
-      <div className="ck-sms" onClick={() => alert("Message button clicked!")}>
+      <div
+        className="ck-sms"
+        onClick={() => alert("Message button clicked!")}
+        role="button"
+        aria-label="Send a message"
+      >
         &#9993;
       </div>
 
@@ -95,42 +104,53 @@ function CookMode() {
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Enter a meal name..."
         />
         <InputSample
-          label="Student No."
+          label="Student No"
           type="number"
           value={studentNumber}
           onChange={(e) => setStudentNumber(e.target.value)}
           min="0"
+          placeholder="Enter number of students..."
         />
         <InputSample
-          label="Teacher No."
+          label="Teacher No"
           type="number"
           value={teacherNumber}
           onChange={(e) => setTeacherNumber(e.target.value)}
           min="0"
+          placeholder="Enter number of teachers..."
         />
       </div>
 
       {/* Total Population Display */}
-      <div className="total-population">
-        <p>Total Population: {totalPopulation}</p>
+      <div className="total-population" style={{ backgroundColor: "lightblue" }}>
+        <p>Total Population: {totalPopulation || "Loading..."}</p>
       </div>
 
       {/* Meal List */}
-      <div className="meal-grid">
+      <div className="meal-list">
+        {loading && <p>Loading meals...</p>}
+        {error && <p>{error}</p>}
         {filteredMeals.length > 0 ? (
           filteredMeals.map((meal) => (
             <div
               key={meal.id}
               className={`meal-item ${selectedMeal?.id === meal.id ? "selected" : ""}`}
               onClick={() => handleMealSelect(meal)}
+              role="button"
+              tabIndex="0"
+              aria-label={`Select ${meal.name}`}
             >
               <div className="meal-content">
                 <img
                   src={meal.image}
                   alt={meal.name}
                   className="meal-image"
+                  onError={(e) => {
+                    e.target.src = "https://via.placeholder.com/150"; // Fallback image
+                  }}
                 />
                 <div className="meal-text">
                   <h3>{meal.name}</h3>
@@ -193,7 +213,13 @@ function CookMode() {
           <hr />
           <div className="xt-area">
             <label htmlFor="ext-area">Follow this Guide</label>
-            <textarea style={{ width: "100%", height: "150px" }} readOnly value={recipe}></textarea>
+            <textarea
+              id="ext-area"
+              style={{ width: "100%", height: "150px" }}
+              readOnly
+              value={recipe}
+              aria-label={`Recipe for ${selectedMeal.name}`}
+            ></textarea>
           </div>
         </>
       )}
