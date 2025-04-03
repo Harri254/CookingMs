@@ -16,7 +16,7 @@ import './index.css';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/CookingMs">
       <Header />
       <Routes>
         <Route path="/" element={<Login />} /> 
